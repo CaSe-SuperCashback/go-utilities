@@ -3,22 +3,17 @@ package language
 import "github.com/goccy/go-json"
 
 type Multilingual struct {
-	English    string `json:"en,omitempty"`
+	English    string `json:"en,omitempty"` // English
 	Vietnamese string `json:"vi,omitempty"` // Vietnamese
 }
 
-func (m Multilingual) GetLocalized(lang string) Multilingual {
-	// English by default
-	result := Multilingual{
-		English: m.English,
-	}
-
+func (m Multilingual) GetLocalized(lang string) string {
 	switch lang {
-	case Vietnamese.String():
-		result.Vietnamese = m.Vietnamese
+	case English.String():
+		return m.English
+	default:
+		return m.Vietnamese
 	}
-
-	return result
 }
 
 func (m Multilingual) IsEmpty() bool {
