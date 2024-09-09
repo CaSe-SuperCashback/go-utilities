@@ -1,8 +1,9 @@
 package logger
 
 import (
-	"encoding/json"
 	"fmt"
+
+	"github.com/goccy/go-json"
 )
 
 func (l *Logger) Debug(message string, fields Fields) {
