@@ -16,6 +16,7 @@ const (
 	ipContextKey
 	langContextKey
 	timezoneContextKey
+	isMobileKey
 )
 
 type AppContext struct {
@@ -127,6 +128,18 @@ func (appCtx *AppContext) GetTimezone() timezone.Timezone {
 		appCtx.logger.Error("error when getting user timezone", err, Fields{"timezone": tz})
 	}
 	return *utz
+}
+
+func (appCtx *AppContext) SetIsMobile(isMobile bool) {
+	appCtx.context = context.WithValue(appCtx.context, isMobileKey, isMobile)
+}
+
+func (appCtx *AppContext) GetIsMobile() bool {
+	isMobile, ok := appCtx.context.Value(isMobileKey).(bool)
+	if !ok {
+		return true
+	}
+	return isMobile
 }
 
 func generateID() string {
