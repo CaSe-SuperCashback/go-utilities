@@ -18,10 +18,11 @@ var l = logrus.New()
 
 func Init(environment string) {
 	var (
-		isRelease   = environment == "release"
-		isLocal     = environment == "local"
-		level       = logrus.DebugLevel
-		forceColors = false
+		isRelease     = environment == "release"
+		isLocal       = environment == "local"
+		level         = logrus.DebugLevel
+		forceColors   = false
+		disableColors = true
 	)
 
 	if isRelease {
@@ -30,11 +31,13 @@ func Init(environment string) {
 
 	if isLocal {
 		forceColors = true
+		disableColors = false
 	}
 
 	l.SetLevel(level)
 	l.SetFormatter(&logrus.TextFormatter{
 		ForceColors:     forceColors,
+		DisableColors:   disableColors,
 		FullTimestamp:   true,
 		TimestampFormat: "2006-01-02 15:04:05",
 		DisableQuote:    true,
