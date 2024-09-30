@@ -19,13 +19,17 @@ var l = logrus.New()
 func Init(environment string) {
 	var (
 		isRelease   = environment == "release"
+		isLocal     = environment == "local"
 		level       = logrus.DebugLevel
-		forceColors = true
+		forceColors = false
 	)
 
 	if isRelease {
 		level = logrus.InfoLevel
-		forceColors = false
+	}
+
+	if isLocal {
+		forceColors = true
 	}
 
 	l.SetLevel(level)
