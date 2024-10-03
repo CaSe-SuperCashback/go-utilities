@@ -14,6 +14,7 @@ type contextKey int
 const (
 	userContextKey contextKey = iota
 	platformContextKey
+	provinceContextKey
 	ipContextKey
 	langContextKey
 	timezoneContextKey
@@ -92,6 +93,18 @@ func (appCtx *AppContext) GetPlatformID() string {
 	id, ok := appCtx.context.Value(platformContextKey).(string)
 	if !ok {
 		return ""
+	}
+	return id
+}
+
+func (appCtx *AppContext) SetProvince(code int) {
+	appCtx.context = context.WithValue(appCtx.context, provinceContextKey, code)
+}
+
+func (appCtx *AppContext) GetProvince() int {
+	id, ok := appCtx.context.Value(provinceContextKey).(int)
+	if !ok {
+		return -1
 	}
 	return id
 }
