@@ -19,6 +19,7 @@ const (
 	langContextKey
 	timezoneContextKey
 	isMobileKey
+	userAgentKey
 )
 
 type AppContext struct {
@@ -170,4 +171,16 @@ func (appCtx *AppContext) GetIsMobile() bool {
 
 func generateID() string {
 	return ksuid.New().String()
+}
+
+func (appCtx *AppContext) SetUserAgent(ua string) {
+	appCtx.context = context.WithValue(appCtx.context, userAgentKey, ua)
+}
+
+func (appCtx *AppContext) GetUserAgent() string {
+	ip, ok := appCtx.context.Value(userAgentKey).(string)
+	if !ok {
+		return ""
+	}
+	return ip
 }
