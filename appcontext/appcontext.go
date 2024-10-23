@@ -20,6 +20,7 @@ const (
 	langContextKey
 	timezoneContextKey
 	isMobileKey
+	userAgentKey
 	dbTransactionKey
 )
 
@@ -180,6 +181,18 @@ func (appCtx *AppContext) GetDBTransaction() *sql.Tx {
 		return nil
 	}
 	return tx
+}
+
+func (appCtx *AppContext) SetUserAgent(ua string) {
+	appCtx.context = context.WithValue(appCtx.context, userAgentKey, ua)
+}
+
+func (appCtx *AppContext) GetUserAgent() string {
+	ip, ok := appCtx.context.Value(userAgentKey).(string)
+	if !ok {
+		return ""
+	}
+	return ip
 }
 
 func generateID() string {
