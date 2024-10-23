@@ -2,6 +2,7 @@ package appcontext
 
 import (
 	"context"
+	"database/sql"
 
 	"github.com/CaSe-SuperCashback/go-utilities/language"
 	"github.com/CaSe-SuperCashback/go-utilities/logger"
@@ -19,6 +20,7 @@ const (
 	langContextKey
 	timezoneContextKey
 	isMobileKey
+	dbTransactionKey
 )
 
 type AppContext struct {
@@ -166,6 +168,18 @@ func (appCtx *AppContext) GetIsMobile() bool {
 		return true
 	}
 	return isMobile
+}
+
+func (appCtx *AppContext) SetDBTransaction(tx *sql.Tx) {
+	appCtx.context = context.WithValue(appCtx.context, dbTransactionKey, tx)
+}
+
+func (appCtx *AppContext) GetDBTransaction() *sql.Tx {
+	tx, ok := appCtx.context.Value(dbTransactionKey).(*sql.Tx)
+	if !ok {
+		return nil
+	}
+	return tx
 }
 
 func generateID() string {
