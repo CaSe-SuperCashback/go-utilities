@@ -15,7 +15,7 @@ type PageToken struct {
 func getDefaultPageToken() PageToken {
 	return PageToken{
 		Page:      0,
-		Timestamp: time.Now(),
+		Timestamp: time.Now().UTC(),
 	}
 }
 
@@ -52,7 +52,7 @@ func Decode(token string) PageToken {
 }
 
 func NewWithPage(page int64) string {
-	return encode(page, time.Now())
+	return encode(page, time.Now().UTC())
 }
 
 func NewWithTimestamp(timestamp time.Time) string {
